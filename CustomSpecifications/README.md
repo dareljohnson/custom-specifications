@@ -1,8 +1,8 @@
-# CustomSpecifications Library
+﻿# CustomSpecifications Library
 
 A comprehensive C# implementation of the **Specification Pattern** for .NET 8, enabling elegant composition of business rules through Boolean logic. This library provides a clean, type-safe way to encapsulate and combine complex business logic.
 
-## ? Features
+## ✨ Features
 
 - **Type-Safe Specifications**: Generic specification interface `ISpecification<T>`
 - **Fluent API**: Chain specifications using `And`, `Or`, `Not`, `AndNot`, `OrNot`
@@ -12,14 +12,14 @@ A comprehensive C# implementation of the **Specification Pattern** for .NET 8, e
 - **Immutable**: Thread-safe specification objects
 - **Zero Dependencies**: Pure .NET 8 implementation
 
-## ?? Installation
+## 📦 Installation
 
 ```bash
 # Clone or download the project
 git clone https://github.com/yourrepo/CustomSpecifications.git
 ```
 
-## ?? Quick Start
+## 🚀 Quick Start
 
 ### Basic Usage
 
@@ -59,7 +59,7 @@ var notAdult = spec1.Not();
 var complexSpec = spec1.And(spec2).Or(spec3).AndNot(spec4);
 ```
 
-## ?? Core Concepts
+## 📚 Core Concepts
 
 ### ISpecification<T> Interface
 
@@ -101,7 +101,7 @@ public abstract class LinqSpecification<T> : ISpecification<T>
 }
 ```
 
-## ?? Extension Methods
+## 🔧 Extension Methods
 
 The library provides LINQ-style extension methods:
 
@@ -121,7 +121,7 @@ var first = collection.First(specification);
 var single = collection.Single(specification);
 ```
 
-## ?? Real-World Example: 3PL Warehouse Management System
+## 🏭 Real-World Example: 3PL Warehouse Management System
 
 This library includes comprehensive examples modeling a Third-Party Logistics (3PL) warehouse management system for clients like Tire Rack, Fenty Beauty, and Newegg.
 
@@ -212,32 +212,32 @@ var expiringSoon = products.Where(isExpiring7Days.AndNot(isExpired));
 var expiringMedium = products.Where(isExpiring30Days.AndNot(isExpiring7Days));
 ```
 
-## ??? Architecture
+## 🏗️ Architecture
 
 ```
 CustomSpecifications/
-??? Core/
-?   ??? ISpecification.cs                 # Main interface
-?   ??? Specification.cs                  # Base implementation
-?   ??? LinqSpecification.cs             # Expression tree support
-?   ??? CompositeSpecifications/
-?       ??? AndSpecification.cs          # Logical AND
-?       ??? OrSpecification.cs           # Logical OR
-?       ??? NotSpecification.cs          # Logical NOT
-?       ??? AndNotSpecification.cs       # Logical AND NOT
-?       ??? OrNotSpecification.cs        # Logical OR NOT
-??? Extensions/
-?   ??? SpecificationExtensions.cs       # LINQ integration
-??? Examples/
-    ??? Simple/
-    ?   ??? SimpleExamples.cs            # Basic examples
-    ??? WMS/
-        ??? Models/                       # Domain models
-        ??? Specifications/               # Business rules
-        ??? AdvancedWMSExamples.cs       # Complex scenarios
+├── Core/
+│   ├── ISpecification.cs                 # Main interface
+│   ├── Specification.cs                  # Base implementation
+│   ├── LinqSpecification.cs             # Expression tree support
+│   └── CompositeSpecifications/
+│       ├── AndSpecification.cs          # Logical AND
+│       ├── OrSpecification.cs           # Logical OR
+│       ├── NotSpecification.cs          # Logical NOT
+│       ├── AndNotSpecification.cs       # Logical AND NOT
+│       └── OrNotSpecification.cs        # Logical OR NOT
+├── Extensions/
+│   └── SpecificationExtensions.cs       # LINQ integration
+└── Examples/
+    ├── Simple/
+    │   └── SimpleExamples.cs            # Basic examples
+    └── WMS/
+        ├── Models/                       # Domain models
+        ├── Specifications/               # Business rules
+        └── AdvancedWMSExamples.cs       # Complex scenarios
 ```
 
-## ?? Examples Included
+## 📖 Examples Included
 
 ### Simple Examples
 1. **User Validation**: Age and status checks
@@ -256,7 +256,7 @@ CustomSpecifications/
 7. **Cycle Counting**: Prioritized inventory counts
 8. **International Compliance**: Cross-border shipping rules
 
-## ?? Running the Examples
+## ▶️ Running the Examples
 
 ```csharp
 using CustomSpecifications.Examples.Simple;
@@ -273,19 +273,19 @@ SimpleExamples.Example1_SimpleUserValidation();
 AdvancedWMSExamples.Example1_LowStockPremiumClients();
 ```
 
-## ?? Best Practices
+## 💡 Best Practices
 
 ### 1. Single Responsibility
 Each specification should encapsulate ONE business rule:
 
 ```csharp
-// Good ?
+// Good ✅
 public class IsAdultSpecification : Specification<User>
 {
     public override bool IsSatisfiedBy(User candidate) => candidate.Age >= 18;
 }
 
-// Avoid ?
+// Avoid ❌
 public class IsAdultAndActiveSpecification : Specification<User>
 {
     public override bool IsSatisfiedBy(User candidate) => 
@@ -323,10 +323,10 @@ public class IsExpiringSpecification : Specification<Product>
 Use descriptive names that read like English:
 
 ```csharp
-// Good ?
+// Good ✅
 var activeAdultUsers = users.Where(isAdult.And(isActive));
 
-// Avoid ?
+// Avoid ❌
 var result = users.Where(spec1.And(spec2));
 ```
 
@@ -334,7 +334,7 @@ var result = users.Where(spec1.And(spec2));
 Keep specifications immutable and stateless:
 
 ```csharp
-// Good ?
+// Good ✅
 public class HasMinimumBalanceSpecification : Specification<Account>
 {
     private readonly decimal _minimumBalance;  // Readonly
@@ -346,7 +346,7 @@ public class HasMinimumBalanceSpecification : Specification<Account>
 }
 ```
 
-## ?? Testing Specifications
+## 🧪 Testing Specifications
 
 Specifications are highly testable:
 
@@ -382,21 +382,21 @@ public void CombinedSpecification_WithAndOperator_ReturnsTrueWhenBothSatisfied()
 }
 ```
 
-## ?? References
+## 📄 References
 
 - [Wikipedia: Specification Pattern](https://en.wikipedia.org/wiki/Specification_pattern)
 - [Domain-Driven Design by Eric Evans](https://www.domainlanguage.com/ddd/)
 - [Martin Fowler: Specifications](https://martinfowler.com/apsupp/spec.pdf)
 
-## ?? Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## ?? License
+## 📜 License
 
 This project is licensed under the MIT License.
 
-## ?? Acknowledgments
+## 🙏 Acknowledgments
 
 - Eric Evans and Martin Fowler for the Specification Pattern
 - The Domain-Driven Design community
@@ -404,4 +404,5 @@ This project is licensed under the MIT License.
 
 ---
 
-**Built with ?? using .NET 8 and modern C# features**
+**Built with ❤️ using .NET 8 and modern C# features**
+
