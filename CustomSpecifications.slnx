@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CustomSpecifications.Tests/CustomSpecifications.Tests.csproj" />
+  <Project Path="CustomSpecifications/CustomSpecifications.csproj" />
+</Solution>
