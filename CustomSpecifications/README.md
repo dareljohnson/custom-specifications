@@ -2,7 +2,7 @@
 
 A comprehensive C# implementation of the **Specification Pattern** for .NET 8, enabling elegant composition of business rules through Boolean logic. This library provides a clean, type-safe way to encapsulate and combine complex business logic.
 
-## ?? Features
+## ? Features
 
 - **Type-Safe Specifications**: Generic specification interface `ISpecification<T>`
 - **Fluent API**: Chain specifications using `And`, `Or`, `Not`, `AndNot`, `OrNot`
