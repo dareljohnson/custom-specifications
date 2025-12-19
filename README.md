@@ -137,24 +137,76 @@ This library includes comprehensive examples modeling a Third-Party Logistics (3
 ### Example: Low Stock Alerts for Premium Clients
 
 ```csharp
+// Sample list of clients data based on Client model
+List<Client> clients = new List<Client>
+{ 
+    new Client ( "1", "Client A", "clienta@example.com", ClientTier.Premium, new DateTime(2023, 1, 15), new DateTime(2023,2,21), true ),
+    new Client ( "2", "Client B", "clientb@example.com", ClientTier.Enterprise, new DateTime(2023, 3, 20), new DateTime(2023,2,21),true ),
+    new Client ( "3", "Client C", "clientc@example.com", ClientTier.Standard, new DateTime(2023, 5, 10),new DateTime(2025,2,3), true ),
+    new Client ( "4", "Client D", "clientd@example.com", ClientTier.Premium, new DateTime(2023, 2, 28), new DateTime(2023,2,21),false ),
+    new Client ( "5", "Client E", "cliente@example.com", ClientTier.Standard, new DateTime(2023, 6, 5), new DateTime(2025,12,21),true ),
+    new Client ( "6", "Client F", "clientf@example.com", ClientTier.Enterprise, new DateTime(2023, 4, 12), new DateTime(2023,2,21),true ),
+    new Client ( "7", "Client G", "clientg@example.com", ClientTier.Premium, new DateTime(2023, 7, 22), new DateTime(2023,2,21),true ),
+    new Client ( "8", "Client H", "clienth@example.com", ClientTier.Standard, new DateTime(2023, 8, 30), new DateTime(2023,2,21),false ),
+    new Client ( "9", "Client I", "clienti@example.com", ClientTier.Enterprise, new DateTime(2023, 9, 18), new DateTime(2020,12,1),true ),
+    new Client ( "10", "Client J", "clientj@example.com", ClientTier.Premium, new DateTime(2023, 10, 25), new DateTime(2025,9,5),false )
+};
+
+// Sample list of inventory data based on Inventory model
+List<Inventory> inventory = new List<Inventory>
+{
+    new Inventory ( "1", "1kas7-rew","1","ATL-12", 5090, 100, 7500, new DateTime(2023, 1, 15), InventoryStatus.Available, null ),
+    new Inventory ( "2", "2mfg8-xyz","2","NYC-45", 3200, 250, 5000, new DateTime(2023, 2, 10), InventoryStatus.Available, null ),
+    new Inventory ( "3", "3pqr9-abc","1","CHI-78", 150, 200, 800, new DateTime(2023, 3, 5), InventoryStatus.Reserved, null ),
+    new Inventory ( "4", "4stu0-def","3","LAX-23", 8900, 500, 10000, new DateTime(2023, 4, 20), InventoryStatus.Available, null ),
+    new Inventory ( "5", "5vwx1-ghi","2","MIA-56", 45, 100, 600, new DateTime(2023, 5, 12), InventoryStatus.InTransit, null ),
+    new Inventory ( "6", "6yza2-jkl","1","SEA-89", 4500, 300, 6000, new DateTime(2023, 6, 18), InventoryStatus.Available, null ),
+    new Inventory ( "7", "7bcd3-mno","4","DFW-34", 220, 150, 1000, new DateTime(2023, 7, 8), InventoryStatus.Reserved, null ),
+    new Inventory ( "8", "8efg4-pqr","3","BOS-67", 6700, 400, 8000, new DateTime(2023, 8, 22), InventoryStatus.Available, null ),
+    new Inventory ( "9", "9hij5-stu","5","DEN-90", 80, 120, 500, new DateTime(2023, 9, 15), InventoryStatus.Available, null ),
+    new Inventory ( "10", "10klm6-vwx","2","PHX-12", 5500, 350, 7000, new DateTime(2023, 10, 3), InventoryStatus.Available, null ),
+    new Inventory ( "11", "11nop7-yza","1","HOU-45", 95, 200, 700, new DateTime(2023, 11, 11), InventoryStatus.Available, null ),
+    new Inventory ( "12", "12qrs8-bcd","6","SFO-78", 7800, 450, 9000, new DateTime(2023, 12, 1), InventoryStatus.Available, null ),
+    new Inventory ( "13", "13tuv9-efg","3","PDX-23", 3400, 280, 5500, new DateTime(2024, 1, 7), InventoryStatus.Reserved, null ),
+    new Inventory ( "14", "14wxy0-hij","4","MSP-56", 120, 180, 900, new DateTime(2024, 2, 14), InventoryStatus.Available, null ),
+    new Inventory ( "15", "15zab1-klm","1","DTW-89", 4200, 320, 6500, new DateTime(2024, 3, 19), InventoryStatus.Available, null ),
+    new Inventory ( "16", "16cde2-nop","2","SLC-34", 35, 90, 400, new DateTime(2024, 4, 25), InventoryStatus.Quarantine, null ),
+    new Inventory ( "17", "17fgh3-qrs","5","CLT-67", 6100, 380, 8500, new DateTime(2024, 5, 30), InventoryStatus.Available, null ),
+    new Inventory ( "18", "18ijk4-tuv","3","LAS-90", 2800, 220, 4500, new DateTime(2024, 6, 12), InventoryStatus.Available, null ),
+    new Inventory ( "19", "19lmn5-wxy","1","PHL-12", 175, 250, 1200, new DateTime(2024, 7, 8), InventoryStatus.Reserved, null ),
+    new Inventory ( "20", "20opq6-zab","4","MCO-45", 7200, 410, 9500, new DateTime(2024, 8, 16), InventoryStatus.Available, null ),
+    new Inventory ( "21", "21rst7-cde","2","BNA-78", 65, 130, 550, new DateTime(2024, 9, 21), InventoryStatus.Available, null ),
+    new Inventory ( "22", "22uvw8-fgh","6","AUS-23", 8500, 480, 10500, new DateTime(2024, 10, 5), InventoryStatus.Available, null ),
+    new Inventory ( "23", "23xyz9-ijk","1","RDU-56", 3900, 290, 6200, new DateTime(2024, 11, 13), InventoryStatus.Available, null ),
+    new Inventory ( "24", "24abc0-lmn","3","SAN-89", 190, 210, 1100, new DateTime(2024, 12, 20), InventoryStatus.Reserved, null ),
+    new Inventory ( "25", "25def1-opq","5","IND-34", 5600, 360, 7800, new DateTime(2025, 1, 2), InventoryStatus.Available, null ),
+    new Inventory ( "26", "26ghi2-rst","2","CMH-67", 50, 110, 450, new DateTime(2025, 2, 9), InventoryStatus.Damaged, null ),
+    new Inventory ( "27", "27jkl3-uvw","1","JAX-90", 4800, 330, 6800, new DateTime(2025, 3, 17), InventoryStatus.Available, null ),
+    new Inventory ( "28", "28mno4-xyz","4","MEM-12", 2500, 240, 4200, new DateTime(2025, 4, 23), InventoryStatus.Available, null ),
+    new Inventory ( "29", "29pqr5-abc","3","OKC-45", 140, 190, 850, new DateTime(2025, 5, 28), InventoryStatus.Reserved, null ),
+    new Inventory ( "30", "30stu6-def","6","RIC-78", 7500, 440, 9800, new DateTime(2025, 6, 4), InventoryStatus.Available, null ),
+    new Inventory ( "31", "31vwx7-ghi","1","TPA-23", 4100, 310, 6400, new DateTime(2025, 7, 10), InventoryStatus.Available, null )
+};
+
 // Specifications
 var isPremiumClient = new ClientSpecifications.IsPremiumOrEnterpriseSpecification();
 var isActive = new ClientSpecifications.IsActiveSpecification();
 var isBelowReorder = new InventorySpecifications.IsBelowReorderPointSpecification();
 
+
 // Complex rule: Premium clients with active contracts having low stock
 var premiumActiveClients = clients.Where(isPremiumClient.And(isActive));
-var lowStockInventory = inventory.Where(isBelowReorder);
+var lowStockByClient = inventory
+    .Where(isBelowReorder)
+    .ToLookup(inv => inv.ClientId);
 
 // Generate alerts
-foreach (var client in premiumActiveClients)
-{
-    var clientLowStock = lowStockInventory
-        .Where(inv => inv.ClientId == client.Id)
-        .ToList();
-    
-    // Send notification...
-}
+premiumActiveClients
+    .Where(client => lowStockByClient.Contains(client.Id))
+    .SelectMany(client => lowStockByClient[client.Id]
+        .Select(item => $"Alert: {client.Name} at location {item.LocationId} has low stock on Sku: {item.Sku} and has only {item.Quantity} items in stock."))
+    .ToList()
+    .ForEach(Console.WriteLine); //Push notifications to console
 ```
 
 ### Example: Expedited Order Processing
