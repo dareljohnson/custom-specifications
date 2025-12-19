@@ -212,6 +212,21 @@ premiumActiveClients
 ### Example: Expedited Order Processing
 
 ```csharp
+// A sample list of orders data based on Order model
+List<Order> orders = new List<Order>
+{
+    new Order("1", "1", new DateTime(2025, 7, 10), new DateTime(2025, 7, 18), OrderPriority.Rush, ShippingMethod.Ground, "USA", OrderStatus.Pending, new List<OrderLine>{new OrderLine("1kas7-rew", 50, 25)}),
+    new Order("2", "2", new DateTime(2025, 7, 11), new DateTime(2025, 7, 20), OrderPriority.Normal, ShippingMethod.TwoDayAir, "USA", OrderStatus.InProgress, new List<OrderLine>{new OrderLine("2mfg8-xyz", 100, 50)}),
+    new Order("3", "1", new DateTime(2025, 7, 12), new DateTime(2025, 7, 15), OrderPriority.Rush, ShippingMethod.Overnight, "USA", OrderStatus.Pending, new List<OrderLine>{new OrderLine("3pqr9-abc", 75, 30)}),
+    new Order("4", "3", new DateTime(2025, 7, 13), new DateTime(2025, 7, 25), OrderPriority.Normal, ShippingMethod.Ground, "Canada", OrderStatus.Shipped, new List<OrderLine>{new OrderLine("4stu0-def", 200, 100)}),
+    new Order("5", "2", new DateTime(2025, 7, 14), new DateTime(2025, 7, 16), OrderPriority.Rush, ShippingMethod.TwoDayAir, "USA", OrderStatus.Pending, new List<OrderLine>{new OrderLine("5vwx1-ghi", 40, 20)}),
+    new Order("6", "1", new DateTime(2025, 7, 15), new DateTime(2025, 7, 28), OrderPriority.Low, ShippingMethod.Ground, "Mexico", OrderStatus.Delivered, new List<OrderLine>{new OrderLine("6yza2-jkl", 150, 75)}),
+    new Order("7", "4", new DateTime(2025, 7, 16), new DateTime(2025, 7, 17), OrderPriority.Rush, ShippingMethod.Overnight, "USA", OrderStatus.OnHold, new List<OrderLine>{new OrderLine("7bcd3-mno", 80, 40)}),
+    new Order("8", "3", new DateTime(2025, 7, 17), new DateTime(2025, 7, 30), OrderPriority.Normal, ShippingMethod.Ground, "USA", OrderStatus.Pending, new List<OrderLine>{new OrderLine("8efg4-pqr", 120, 60)}),
+    new Order("9", "5", new DateTime(2025, 7, 18), new DateTime(2025, 7, 22), OrderPriority.Normal, ShippingMethod.TwoDayAir, "Canada", OrderStatus.Packed, new List<OrderLine>{new OrderLine("9hij5-stu", 60, 25)}),
+    new Order("10", "2", new DateTime(2025, 7, 19), new DateTime(2025, 7, 21), OrderPriority.Rush, ShippingMethod.TwoDayAir, "USA", OrderStatus.Pending, new List<OrderLine>{new OrderLine("10klm6-vwx", 90, 45)})
+};
+
 // Identify orders requiring immediate attention
 var requiresExpedited = new OrderSpecifications.RequiresExpeditedProcessingSpecification();
 var isPending = new OrderSpecifications.HasStatusSpecification(OrderStatus.Pending);
@@ -221,7 +236,9 @@ var urgentOrders = orders
     .OrderBy(o => o.RequiredDate)
     .ToList();
 
-// Process urgently...
+// Generate alerts
+urgentOrders.ForEach(order => 
+    Console.WriteLine($"Alert: Order {order.Id} for product {order.Lines.First().Sku} shipping status is {order.Status} and is estimated to be delivered by {order.RequiredDate.ToShortDateString()}."));
 ```
 
 ### Example: Special Handling Products
