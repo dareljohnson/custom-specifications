@@ -244,6 +244,24 @@ urgentOrders.ForEach(order =>
 ### Example: Special Handling Products
 
 ```csharp
+// A sample list of products data based on Product model
+List<Product> products = new List<Product>
+{
+    new Product("1kas7-rew", "1","Goodyear Eagle F1 Asymmetric 6", "Max Performance Summer Tire with Good Wet Grip for Sportscars", ProductCategory.Automotive, 20, new Dimensions(225,40,18), false, false, false, 210.99M, null),
+    new Product("31vwx7-ghi", "1","Goodyear Eagle F1 Asymmetric 6", "Max Performance Summer Tire with Good Wet Grip for Sportscars", ProductCategory.Automotive, 22, new Dimensions(255,35,19), false, false, false, 277.99M, null),
+    new Product("2mfg8-xyz", "2","Gloss Bomb Stix High-Shine Gloss Stick", "Get luscious shine with this glossy, medium pigment lipstick that is loaded with Vitamin E and Shea Butter, plus Squalane to lock in moisture for up to 8 hours.", ProductCategory.Beauty, 0.036M, new Dimensions(0.3M,0.05M,0.1M), false, false, false, 26.00M, null),
+    new Product("7bcd3-mno", "4","fresh from the kitchen™ home cooked chicken recipe", "NEW home-cooked chicken recipe with improved taste and aroma your dog will love.", ProductCategory.Food, 1.75m, new Dimensions(6,1,5), false, false, true, 10.46M, new DateTime(2026, 2, 10)),
+    new Product("5vwx1-ghi", "5","Dry Ice Pellets™ home cooked chicken recipe", "Pharmaceutical-grade Dry Ice provides reliable cooling for the transport.", ProductCategory.Industrial, 9.75m, new Dimensions(16,12,30), false, false, true, 80.46M, new DateTime(2026, 2, 10))
+};
+
+// Sample list of warehouse locations data based on Location model
+List<Location> locations = new List<Location>
+{
+    new Location("DEN-90", "Denver Hazardous Goods Area", "A-1", "A-1-A", "1", LocationType.Storage, true, 10m,  true),
+    new Location("NYC-45", "New York Hazardous Goods Area", "B-1", "B-1-A", "3", LocationType.Storage, false, 10m,  false),
+    new Location("DEN-90", "Denver Hazardous Goods Area", "A-1", "A-1-A", "2", LocationType.Quarantine, false, 10m,  true)
+};
+
 // Products requiring special storage conditions
 var isHazmat = new ProductSpecifications.IsHazmatSpecification();
 var requiresRefrigeration = new ProductSpecifications.RequiresRefrigerationSpecification();
@@ -260,6 +278,13 @@ foreach (var product in specialProducts)
         (!product.IsHazmat || loc.IsHazmatApproved) &&
         (!product.RequiresRefrigeration || loc.IsTemperatureControlled)
     );
+
+    Console.WriteLine($"Product: {product.Sku} - {product.Name}");
+    foreach (var location in suitableLocations)
+    {
+        Console.WriteLine($"  Suitable Location: {location.Id} - {location.Level} (Zone: {location.Zone}, Aisle: {location.Aisle})");
+    }
+    Console.WriteLine();
 }
 ```
 
