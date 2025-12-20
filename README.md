@@ -304,6 +304,16 @@ var expiringSoon = products.Where(isExpiring7Days.AndNot(isExpired));
 
 // Medium: Expiring within 30 days but not within 7
 var expiringMedium = products.Where(isExpiring30Days.AndNot(isExpiring7Days));
+
+// Generate alerts
+expiredProducts.ToList().ForEach(p => 
+    Console.WriteLine($"Critical Alert: Product {p.Sku} - {p.Name} has expired."));
+
+expiringSoon.ToList().ForEach(p =>
+    { Console.WriteLine($"High Alert: Product {p.Sku} - {p.Name} is expiring within 7 days."); });
+
+expiringMedium.ToList().ForEach(p =>
+    { Console.WriteLine($"Medium Alert: Product {p.Sku} - {p.Name} is expiring within 30 days."); });
 ```
 
 ## 🏗️ Architecture
